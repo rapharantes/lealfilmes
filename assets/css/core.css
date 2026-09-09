@@ -1,0 +1,411 @@
+/* --- CORE --- */
+/* Design system: parallax-clean. Tokens de cor: Leal Films (--green #91ef32, --ink #080b09, --paper #f4f6f1). */
+:root {
+  --c-bg: #F4F6F1;        /* Paper */
+  --c-dark: #080B09;      /* Ink */
+  --c-accent: #385B17;    /* Verde profundo - texto sobre paper */
+  --c-neon: #91EF32;      /* Verde Leal - sobre fundo escuro */
+  --c-neon-dim: #689A35;
+  --c-surface: #E9ECE4;   /* Paper um tom abaixo */
+  --c-card: #101510;      /* Card sobre ink */
+  --font-display: 'Syncopate', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --dur-quick: 180ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.30, 1);
+}
+body {
+  background-color: var(--c-bg);
+  color: var(--c-dark);
+  font-family: var(--font-body);
+  margin: 0;
+  overflow-x: hidden;
+  cursor: auto;
+  opacity: 0; /* JS fade in */
+}
+
+/* --- LAYOUT UTILS --- */
+.wrapper {
+  position: relative;
+  z-index: 10;
+  background-color: var(--c-bg);
+  /* The margin ensures we can scroll "past" the content to reveal the footer */
+  margin-bottom: 100vh;
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+}
+
+/* --- TEXT REVEAL UTILS --- */
+.word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.1em;
+}
+.word-inner {
+  display: inline-block;
+  transform: translateY(110%);
+}
+
+/* --- PRELOADER --- */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.loader-text {
+  font-family: var(--font-display);
+  font-size: 5vw;
+  font-weight: 700;
+}
+.loader-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: var(--c-neon);
+  width: 0%;
+}
+
+/* --- NAV --- */
+/* Sem mix-blend-difference: a logo e colorida e o difference inverteria a marca.
+   Fora do topo a nav ganha fundo, o que resolve a legibilidade sobre secoes claras. */
+.site-nav {
+  transition: background-color var(--dur-quick) var(--ease-out),
+              border-color var(--dur-quick) var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+.site-nav.nav-solid {
+  background: rgba(8, 11, 9, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom-color: rgba(145, 239, 50, 0.18);
+}
+.nav-logo img {
+  height: 1.6rem;
+  width: auto;
+  display: block;
+}
+@media (min-width: 768px) { .nav-logo img { height: 2rem; } }
+
+/* --- HERO VIDEO --- */
+/* Altura extra + offset para o parallax (yPercent 12) nunca descobrir a borda. */
+.hero-img {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  top: -15%;
+  object-fit: cover;
+}
+/* A "película": camada que escurece e tinge o que passa pelo vidro. */
+.film-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 11, 9, 0.72) 0%, rgba(8, 11, 9, 0.34) 38%, rgba(8, 11, 9, 0.82) 100%),
+    linear-gradient(105deg, rgba(56, 91, 23, 0.35) 0%, rgba(8, 11, 9, 0) 55%);
+}
+.video-toggle {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(8, 11, 9, 0.5);
+  border: 1px solid rgba(244, 246, 241, 0.28);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: border-color var(--dur-quick) var(--ease-out),
+              color var(--dur-quick) var(--ease-out);
+}
+.video-toggle:hover { border-color: var(--c-neon); color: var(--c-neon); }
+
+/* --- CARD STACK SECTION --- */
+.stack-section {
+  padding: 10vh 0;
+  background: var(--c-dark);
+  color: var(--c-bg);
+  position: relative;
+}
+.stack-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 4vh;
+}
+.card-item {
+  position: sticky;
+  top: 10vh; /* Cards stick here */
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5vh;
+}
+.card-inner {
+  width: 90%;
+  height: 100%;
+  background: var(--c-card);
+  border: 1px solid rgba(145, 239, 50, 0.14);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+.card-content {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  /* 2 blocos de texto: centrado alinha melhor com a imagem ao lado que space-between */
+  justify-content: center;
+  gap: 2.5rem;
+  background: var(--c-card);
+  z-index: 2;
+}
+.card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.5s ease;
+}
+.card-inner:hover .card-img {
+  transform: scale(1.1);
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+  .card-inner { grid-template-columns: 1fr; }
+  /* top maior que a nav fixa, para o card nao encostar nela */
+  .card-item { top: 11vh; height: 80vh; }
+  .card-img-wrap { height: 42%; order: -1; }
+  .card-content { padding: 1.75rem; justify-content: flex-start; gap: 1.25rem; }
+}
+
+/* --- FOOTER REVEAL --- */
+.footer-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  background: #050705;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* --- FOOTER: CTA + PERSONA --- */
+.footer-inner { text-align: center; }
+.footer-persona {
+  /* telas estreitas: entra como textura de fundo, atras do texto */
+  position: absolute;
+  bottom: 0;
+  right: -20%;
+  height: 38vh;
+  opacity: 0.18;
+  width: auto;
+  z-index: 2;
+  pointer-events: none;
+  /* funde a base da ilustracao com o fundo do footer */
+  -webkit-mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+}
+.footer-logo {
+  height: 1.75rem;
+  width: auto;
+  margin: 0 auto 2rem;
+  display: block;
+  opacity: 0.9;
+}
+@media (min-width: 560px) {
+  .footer-persona { height: 52vh; right: -8%; opacity: 0.3; }
+}
+@media (min-width: 900px) {
+  .footer-sticky { align-items: flex-start; }
+  .footer-inner { text-align: left; margin-left: 6vw; max-width: 48vw; }
+  .footer-logo { margin-left: 0; margin-right: auto; height: 2rem; }
+  /* o conteudo interno vem centralizado (mobile): realinha tudo a esquerda */
+  .footer-inner p { margin-left: 0; margin-right: 0; }
+  .footer-inner > div.flex { justify-content: flex-start; }
+  .footer-persona { right: 0; height: 74vh; opacity: 1; }
+}
+@media (min-width: 1400px) {
+  .footer-persona { right: 4vw; height: 78vh; }
+}
+
+/* --- TYPOGRAPHY --- */
+.display { font-family: var(--font-display); }
+
+/* --- LISTAS COM MARCADOR DE FILME --- */
+.film-list { list-style: none; margin: 0; padding: 0; }
+.film-list li {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  align-items: start;
+  gap: 0.25rem;
+  padding: 1.15rem 0;
+  border-top: 1px solid rgba(8, 11, 9, 0.12);
+}
+.film-list li::before {
+  content: "";
+  display: block;
+  width: 1.25rem;
+  height: 2px;
+  margin-top: 0.7em;
+  background: var(--c-accent);
+}
+
+/* --- PROVA SOCIAL --- */
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem 1.5rem;
+  align-items: center;
+}
+@media (min-width: 640px) { .client-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1024px) { .client-grid { grid-template-columns: repeat(8, 1fr); } }
+.client-grid img {
+  /* caixa fixa: logos horizontais e verticais ocupam o mesmo peso visual */
+  height: 3rem;
+  width: 100%;
+  object-fit: contain;
+  /* dessaturado e escurecido: uniformiza 16 marcas de cores muito diferentes */
+  filter: grayscale(1) brightness(0.45) contrast(1.15);
+  opacity: 0.9;
+  transition: filter var(--dur-quick) var(--ease-out), opacity var(--dur-quick) var(--ease-out);
+}
+.client-grid img:hover { filter: none; opacity: 1; }
+
+/* --- FAQ --- */
+.faq-item {
+  border-top: 1px solid rgba(8, 11, 9, 0.14);
+}
+.faq-item:last-of-type { border-bottom: 1px solid rgba(8, 11, 9, 0.14); }
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 1.35rem 2.5rem 1.35rem 0;
+  position: relative;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: color var(--dur-quick) var(--ease-out);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--c-accent); }
+.faq-item summary::after {
+  content: "";
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-right: 2px solid var(--c-accent);
+  border-bottom: 2px solid var(--c-accent);
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform var(--dur-quick) var(--ease-out);
+}
+.faq-item[open] summary::after { transform: translateY(-20%) rotate(-135deg); }
+.faq-item p {
+  margin: 0 0 1.5rem;
+  max-width: 68ch;
+  color: #4a524b;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+/* --- BOTAO FLUTUANTE WHATSAPP --- */
+.wa-float {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 9500; /* acima do noise (9000), abaixo do preloader (10000) */
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--c-dark);
+  border: 1px solid rgba(145, 239, 50, 0.45);
+  box-shadow: 0 10px 30px rgba(8, 11, 9, 0.45);
+  transition: transform var(--dur-quick) var(--ease-out),
+              border-color var(--dur-quick) var(--ease-out);
+}
+.wa-float:hover { transform: translateY(-2px); border-color: var(--c-neon); }
+/* halo pulsante: chama atencao sem mexer no alvo de clique */
+.wa-float::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--c-neon);
+  animation: wa-pulse 2.6s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+  pointer-events: none;
+}
+@keyframes wa-pulse {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  70%  { transform: scale(1.65); opacity: 0; }
+  100% { transform: scale(1.65); opacity: 0; }
+}
+.wa-float svg { width: 1.75rem; height: 1.75rem; fill: var(--c-neon); display: block; }
+@media (min-width: 768px) {
+  .wa-float { right: 2rem; bottom: 2rem; width: 4rem; height: 4rem; }
+  .wa-float svg { width: 2rem; height: 2rem; }
+}
+
+/* --- NOISE --- */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* --- QUALITY FLOOR --- */
+:focus-visible {
+  outline: 2px solid var(--c-neon);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Sem parallax nem card-stack: o conteudo fica legivel em posicao final. */
+  .card-item { position: static; height: auto; margin-bottom: 4vh; }
+  .card-inner { transform: none !important; opacity: 1 !important; }
+  .card-img-wrap { min-height: 40vh; }
+  .word-inner, .hero-text span { transform: none !important; }
+  .wa-float:hover { transform: none; }
+  .wa-float::before { animation: none; opacity: 0; }
+  .hero-fade { opacity: 1 !important; }
+}
