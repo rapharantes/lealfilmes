@@ -195,11 +195,33 @@ body {
 
 /* Mobile adjustment */
 @media (max-width: 768px) {
-  .card-inner { grid-template-columns: 1fr; }
+  .card-inner {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100%;
+  }
   /* top maior que a nav fixa, para o card nao encostar nela */
-  .card-item { top: 11vh; height: 80vh; }
-  .card-img-wrap { height: 42%; order: -1; }
-  .card-content { padding: 1.75rem; justify-content: flex-start; gap: 1.25rem; }
+  .card-item {
+    top: 11vh;
+    height: auto;
+    min-height: 72vh;
+    margin-bottom: 3.5vh;
+  }
+  .card-img-wrap {
+    height: clamp(220px, 38vh, 360px);
+    min-height: 220px;
+    order: -1;
+    width: 100%;
+  }
+  .card-img {
+    object-fit: cover;
+    object-position: center center;
+  }
+  .card-content {
+    padding: 1.75rem;
+    justify-content: flex-start;
+    gap: 1.25rem;
+  }
 }
 
 /* --- FOOTER REVEAL --- */
@@ -221,8 +243,14 @@ body {
 
 /* --- FOOTER: CTA + PERSONA --- */
 .footer-inner { text-align: center; }
+.footer-brand-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
 .footer-persona {
-  /* telas estreitas: entra como textura de fundo, atras do texto */
   position: absolute;
   bottom: 0;
   right: -20%;
@@ -238,9 +266,50 @@ body {
 .footer-logo {
   height: 1.75rem;
   width: auto;
-  margin: 0 auto 2rem;
+  margin: 0 auto 0;
   display: block;
   opacity: 0.9;
+}
+@media (max-width: 767px) {
+  .footer-sticky { justify-content: center; }
+  .footer-inner {
+    width: min(100%, 480px);
+    padding-top: 1rem;
+    text-align: left;
+  }
+  .footer-brand-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .footer-logo {
+    height: 2.2rem;
+    margin: 0;
+    opacity: 1;
+  }
+  .footer-persona {
+    position: relative;
+    inset: auto;
+    right: auto;
+    bottom: auto;
+    display: block;
+    width: clamp(110px, 34vw, 170px);
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.35));
+  }
+  .footer-inner p,
+  .footer-inner > div,
+  .footer-inner address {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 @media (min-width: 560px) {
   .footer-persona { height: 52vh; right: -8%; opacity: 0.3; }
