@@ -8,8 +8,8 @@
   --c-neon-dim: #689A35;
   --c-surface: #E9ECE4;   /* Paper um tom abaixo */
   --c-card: #101510;      /* Card sobre ink */
-  --font-display: 'Syncopate', sans-serif;
-  --font-body: 'Manrope', sans-serif;
+  --font-display: 'Montserrat', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
   --dur-quick: 180ms;
   --ease-out: cubic-bezier(0.16, 1, 0.30, 1);
 }
@@ -60,6 +60,7 @@ body {
   font-family: var(--font-display);
   font-size: 5vw;
   font-weight: 700;
+  letter-spacing: 0.06em;
 }
 .loader-bar {
   position: absolute;
@@ -241,94 +242,32 @@ body {
   overflow: hidden;
 }
 
-/* --- FOOTER: CTA + PERSONA --- */
-.footer-inner { text-align: center; }
+/* --- FOOTER: CTA --- */
+.footer-inner {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
 .footer-brand-row {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 1.5rem;
 }
-.footer-persona {
-  position: absolute;
-  bottom: 0;
-  right: -20%;
-  height: 38vh;
-  opacity: 0.18;
-  width: auto;
-  z-index: 2;
-  pointer-events: none;
-  /* funde a base da ilustracao com o fundo do footer */
-  -webkit-mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
-}
 .footer-logo {
-  height: 1.75rem;
+  height: 2.2rem;
   width: auto;
-  margin: 0 auto 0;
+  margin: 0 auto;
   display: block;
-  opacity: 0.9;
-}
-@media (max-width: 767px) {
-  .footer-sticky { justify-content: center; }
-  .footer-inner {
-    width: min(100%, 480px);
-    padding-top: 1rem;
-    text-align: left;
-  }
-  .footer-brand-row {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-  }
-  .footer-logo {
-    height: 2.2rem;
-    margin: 0;
-    opacity: 1;
-  }
-  .footer-persona {
-    position: relative;
-    inset: auto;
-    right: auto;
-    bottom: auto;
-    display: block;
-    width: clamp(110px, 34vw, 170px);
-    height: auto;
-    opacity: 1;
-    pointer-events: auto;
-    -webkit-mask-image: none;
-    mask-image: none;
-    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.35));
-  }
-  .footer-inner p,
-  .footer-inner > div,
-  .footer-inner address {
-    text-align: left;
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-@media (min-width: 560px) {
-  .footer-persona { height: 52vh; right: -8%; opacity: 0.3; }
-}
-@media (min-width: 900px) {
-  .footer-sticky { align-items: flex-start; }
-  .footer-inner { text-align: left; margin-left: 6vw; max-width: 48vw; }
-  .footer-logo { margin-left: 0; margin-right: auto; height: 2rem; }
-  /* o conteudo interno vem centralizado (mobile): realinha tudo a esquerda */
-  .footer-inner p { margin-left: 0; margin-right: 0; }
-  .footer-inner > div.flex { justify-content: flex-start; }
-  .footer-persona { right: 0; height: 74vh; opacity: 1; }
-}
-@media (min-width: 1400px) {
-  .footer-persona { right: 4vw; height: 78vh; }
+  opacity: 0.95;
 }
 
 /* --- TYPOGRAPHY --- */
-.display { font-family: var(--font-display); }
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
 
 /* --- LISTAS COM MARCADOR DE FILME --- */
 .film-list { list-style: none; margin: 0; padding: 0; }
